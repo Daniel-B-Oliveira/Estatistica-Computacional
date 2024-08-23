@@ -59,7 +59,7 @@ dim(dados3)  # Se todos os elementos de uma coluna for NA,
 tab <- table(dados3$Churn)
 barplot(tab)
 
-dados4 <- subset(dados3,dados3$Churn=="Nao" | dados3$Churn=="Sim")# seleciona churn não e churn sim
+dados4 <- subset(dados3,dados3$Churn=="Nao" | dados3$Churn=="Sim")# seleciona churn não ou churn sim
 
 # Gráfico de setores
 
@@ -85,9 +85,9 @@ tab
 p = round(100*tab/sum(tab),digits=1)
 p
 
-nomes=c("B. Eletrônico","B. Impresso","C. Crédito","D. Automático")
+nomes = c("B. Eletrônico","B. Impresso","C. Crédito","D. Automático")
 pie(p,col=c("blue","red","green","gray"),main="Forma de Pagamento",labels=nomes)
-legend("topleft",nomes,fill = c("blue","red","green","gray"),cex=0.7)
+legend("topleft",nomes,fill = c("blue","red","green","gray"), cex = 0.7)
 box()
 
 
@@ -95,8 +95,14 @@ box()
 ## Medidas resumo de uma variável indexada por outra(s)
 
 ?list
+
+amp <- function(x) max(x) - min(x)
+amp(dados4$TotalGasto)
+
+
 tapply(dados4$TotalGasto,dados4$Churn,mean)
 tapply(dados4$TotalGasto,dados4$Churn,var)
+tapply(dados4$TotalGasto,dados4$Churn,amp)
 
 tapply(dados4$MesesComoCliente,list(dados4$Churn,dados4$FormaPagamento),mean)
 tapply(dados4$MesesComoCliente,list(dados4$Churn,dados4$FormaPagamento),var)
@@ -153,9 +159,6 @@ for(i in 1:ncol(dados5)){
     box()}
   }
 
-
-
-
 # Exportanto as figuras
 
 # Exportar uma única figura (Fazer)
@@ -163,7 +166,7 @@ for(i in 1:ncol(dados5)){
 
 # Exportando
 for(i in 1:ncol(dados5)){
-  png(filename = paste0("C:/Users/User/Documents/UFU/2024.1/Estatística Computacional/Figuras/",names(dados5)[i],".png"))
+  png(filename = paste0("~/teste/imagens//",names(dados5)[i],"1.png"))
   if(class(dados5[,i])=="numeric") {h=hist(dados5[,i],plot=F)
   plot(h,xlab=names(dados5)[i],
        ylab="Frequência",main="Histograma", col=1:length(h$mids),
@@ -175,7 +178,7 @@ for(i in 1:ncol(dados5)){
            ylab="Frequência",main="Histograma", col=1:length(h$mids),
            ylim=c(0,max(h$counts*1.3)))
       box() } else {
-        barplot(table(dados6[,i]),xlab=names(dados5)[i],
+        barplot(table(dados5[,i]),xlab=names(dados5)[i],
                 ylab="Frequência",main="",col=1:length(table(dados5[,i])),
                 ylim=c(1,max(table(dados5[,i]))*1.3))
         box()}
@@ -194,7 +197,7 @@ for(i in 1:ncol(dados5)){
 i=19 # Total gasto - HISOGRAMA
 h1=hist(dados5[dados5$Churn=="Nao",i],plot=F)
 h2=hist(dados5[dados5$Churn=="Sim",i],plot=F)
-plot(h1,xlab=names(dados5)[i], ylim=c(1,max(max(h1$counts),max(h2$counts)))*1.3,
+plot(h1,xlab=names(dados5)[i], ylim=c(0,max(max(h1$counts),max(h2$counts)))*1.3,
      ylab="Frequência",main="Histograma", 
      density=30,col="red", angle=45)
 plot(h2,add=T,col="blue",density=30,angle=135)
@@ -218,7 +221,7 @@ box()
 for(i in 1:ncol(dados5)){
   if(class(dados5[,i])=="numeric") {h1=hist(dados5[dados5$Churn=="Nao",i],plot=F)
   h2=hist(dados5[dados5$Churn=="Sim",i],plot=F)
-  plot(h1,xlab=names(dados5)[i], ylim=c(1,max(max(h1$counts),max(h2$counts)))*1.3,
+  plot(h1,xlab=names(dados5)[i], ylim=c(0,max(max(h1$counts),max(h2$counts)))*1.3,
        ylab="Frequência",main="Histograma", 
        density=30,col="red", angle=45)
   plot(h2,add=T,col="blue",density=30,angle=135)
@@ -239,10 +242,10 @@ for(i in 1:ncol(dados5)){
 # Exportanto
 
 for(i in 1:ncol(dados5)){
-png(filename = paste0("C:/Users/User/Documents/UFU/2024.1/Estatística Computacional/Figuras2/",names(dados5)[i],".png"))
+png(filename = paste0("~/teste/imagens//",names(dados5)[i],"2.png"))
   if(class(dados5[,i])=="numeric") {h1=hist(dados5[dados5$Churn=="Nao",i],plot=F)
   h2=hist(dados5[dados5$Churn=="Sim",i],plot=F)
-  plot(h1,xlab=names(dados5)[i], ylim=c(1,max(max(h1$counts),max(h2$counts)))*1.3,
+  plot(h1,xlab=names(dados5)[i], ylim=c(0,max(max(h1$counts),max(h2$counts)))*1.3,
        ylab="Frequência",main="Histograma", 
        density=30,col="red", angle=45)
   plot(h2,add=T,col="blue",density=30,angle=135)
