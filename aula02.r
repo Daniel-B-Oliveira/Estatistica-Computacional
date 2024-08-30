@@ -1,3 +1,4 @@
+#R - Descritiva_e_Graficos2.
 rm(list=ls())
 
 ## Gráficos - Estatística Descritiva
