@@ -32,16 +32,16 @@ prob_f <- pnorm(0.5, 8, 2)
 #o erro amostral em cada caso?
 
 n <- c(5,100, 1000, 10000)
-ys <- vector()
+medias <- vector()
+des_p <- vector()
 
-for(i in 1:4)
-  ys[i] <- rnorm(n[i],8,2)
+for(i in 1:4){
+    medias[i] <- mean(rnorm(n[i], 8, 2))
+    des_p[i] <- sd(rnorm(n[i], 8, 2))
+}
 
-
-y1 <- rnorm(5,8,2)
-mean(y1)
-sd(y1)  
-
+print(medias)
+print(des_p)
 
 #i) Construa (desenhe) o grafico ou a curva da distribuicao normal
 #apresentada nesta questao e neste mesmo grafico insira (desenhe) tres pontos
@@ -105,10 +105,21 @@ eq3 <- qt(0.75, 100)
 
 edif <- eq3 - eq1
 
+#Extra
 v_interqualtil <- function(v)
   {
     return(qt(0.75, v) - qt(0.25, v))
-  }
+}
+
+gra_liber <- c(2, 5, 10, 20, 100)
+interquar <- vector()
+
+for(j in 1:5){
+  interquar[j] <-v_interqualtil(gra_liber[j])
+}
+
+print(interquar)
+
 
 #Considere a distribui¸c˜ao normal padr˜ao e as distribui¸c˜oes t de Student
 #para os graus de liberdade v = 2, v = 10, v = 20 e v = 100. Fa¸ca o gr´afico
@@ -199,4 +210,15 @@ var_gamma <- 4/100
 var_gamma
 
 #e
-ey_n5 <- rbeta()
+ey_n5 <- rbeta(5, 4, 10)
+ey_n10 <- rbeta(10000, 4, 10)
+
+mean(ey_n5)
+mean(ey_n10)
+mean_beta <- 4/(4+10)
+mean_beta
+
+var(ey_n5)
+var(ey_n10)
+var_beta <- (4*10)/((4+10)^2*(4+10+1))
+var_beta
