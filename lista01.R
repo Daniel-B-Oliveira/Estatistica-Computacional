@@ -19,7 +19,7 @@ dados$OpTV <- as.factor(dados$OpTV)
 dados_ausentes <- sum(is.na(dados))
 dados_ausentes
 
-#b) Tanto no R quanto no Python, exclua a vari´avel Id do banco de dados.
+#b) Tanto no R quanto no Python, exclua a variavel Id do banco de dados.
 dados <- dados[,-1]
 
 #c) Apresente a meedia, mediana, valor mınimo e valor maximo, variancia,
