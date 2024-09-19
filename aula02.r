@@ -220,9 +220,12 @@ box()
 # Para todas as colunas
 
 for(i in 1:ncol(dados5)){
-  if(class(dados5[,i])=="numeric") {h1=hist(dados5[dados5$Churn=="Nao",i],plot=F)
-  h2=hist(dados5[dados5$Churn=="Sim",i],plot=F)
-  plot(h1,xlab=names(dados5)[i], ylim=c(0,max(max(h1$counts),max(h2$counts)))*1.3,
+  if(class(dados5[,i])=="numeric") {
+    
+    h1=hist(dados5[dados5$Churn=="Nao",i],plot=F)
+    h2=hist(dados5[dados5$Churn=="Sim",i],plot=F)
+  
+    plot(h1,xlab=names(dados5)[i], ylim=c(0,max(max(h1$counts),max(h2$counts)))*1.3,
        ylab="Frequência",main="Histograma", 
        density=30,col="red", angle=45)
   plot(h2,add=T,col="blue",density=30,angle=135)

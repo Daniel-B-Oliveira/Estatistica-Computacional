@@ -50,44 +50,176 @@ medidas_resumo
 #turma. As turmas parecem similar quanto a media em todas as variaveis?
 #E quanto a dispersao? Justifique.
 
+coef <- function(x){
+  return(100*var(x)/mean(x))
+}
 
-medias_turma <- data.frame(
-)
+medidas_indexadas <- function(x,y){
+  print(tapply(x, y, mean))
+  print(tapply(x, y, median))
+  print(tapply(x, y, min))
+  print(tapply(x, y, max))
+  print(tapply(x, y, var))
+  print(tapply(x, y, sd))
+  print(tapply(x, y, coef))
+}
 
+str(dados_numricos)
 
 for(i in 1:ncol(dados_numricos)){
   print(names(dados_numricos)[i])
-  #teste <- data.frame(tapply(dados_numricos[,i],dados$Turma, mean ))
-  print(tapply(dados_numricos[,i], dados$Turma, mean))
-  print(tapply(dados_numricos[,i],dados$Turma, min ))
-  print(tapply(dados_numricos[,i],dados$Turma, max ))
-  print(tapply(dados_numricos[,i],dados$Turma, var ))
-  print(tapply(dados_numricos[,i],dados$Turma, sd ))
-  print(tapply(dados_numricos[,i],dados$Turma, cv_func ))
-  medias_turma <- rbind(medias_turma, data.frame(tapply(dados_numricos[,i],dados$Turma, mean )))
+  medidas_indexadas(dados_numricos[,i], dados$Turma)
+}
+
+
+#Apresentão variações em relação as turmas
+
+# e)Voce utilizaria o histograma para descrever graficamente todas as variaveis
+# numericas deste banco de dados? Justifique.
+
+for(i in 1:ncol(dados_numricos)){
+  h <- hist(dados_numricos[,i], plot = FALSE)
+  plot(h, xlab = names(dados_numricos)[i],
+       main = "Histograma")
+}
+
+names(dados_numricos)
+# Não, utilizaria apenas para variaveis continuas ou
+# que nao estivessem tão dispersas
+
+
+
+# f)Descreva todas as variaveis por meio de graficos observando o tipo de
+# grafico mais adequado para cada uma.
+
+#ruins em histograma: filhos, idade
+
+dados_graficos1 <- dados[, c(-3, -6)]
+dados_graficos2 <- dados[, c(3, 6)]
+
+for(i in 1:ncol(dados_graficos1)){
+  if(class(dados_graficos1[,i]) == "factor"){
+    barplot(table(dados_graficos1[,i]),
+            xlab =  names(dados_graficos1)[i],
+            main = "Gráfico de barras")
+  }else{
+    h <- hist(dados_graficos1[,i], plot = FALSE)
+    plot(h, xlab = names(dados_graficos1)[i],
+         main = "Histograma")
+  }
+}
+
+for(i in 1:ncol(dados_graficos2)){
+  barplot(table(dados_graficos2[,i]),
+          xlab =  names(dados_graficos2)[i],
+          main = "Gráfico de barras")
+}
+
+# g)Descreva todas as variaveis pormeio de graficos observando o tipo de grafico
+# mais adequado para cada uma, por turma. Opadrao das distribuicoes parece
+# similar nas duas turmas? Justifique. (duvida)
+
+dados_graficos3 <- dados_graficos2
+dados_graficos3$Turma <- dados_graficos1$Turma
+
+for(i in 1:ncol(dados_graficos1)){
+  if(class(dados_graficos1[,i]) == "factor"){
+    
+    t1 <- table(dados_graficos1[dados_graficos1$Turma == "A",i])
+    t2 <- table(dados_graficos1[dados_graficos1$Turma == "B",i])
+    
+    barplot(t1, xlab =  names(dados_graficos1)[i],
+            ylim=c(0,max(max(t1),max(t2)))*1.3,
+            ylab = "Frequencia", main = "Grafico de barras",
+            density=30, col = "red", angle=45)
+    
+    barplot(t2, add=T, col="blue", density=30, angle=135)
+    
+    legend("top", c("A", "B"), fill=c("red","blue"),density=30,
+           title="Turma", angle=c(45,135), title.font=2)
+    
+  }else{
+    h1 <- hist(dados_graficos1[dados$Turma == "A",i], plot = FALSE)
+    h2 <- hist(dados_graficos1[dados$Turma == "B",i], plot = FALSE)
+    
+    plot(h1,xlab=names(dados_graficos1)[i],
+         ylim=c(0,max(max(h1$counts),max(h2$counts)))*1.3,
+         ylab="Frequência",main="Histograma", 
+         density=30,col="red", angle=45)
+    
+    plot(h2,add=T,col="blue",density=30,angle=135)
+    
+    legend("top",c("A","B"),fill=c("red","blue"),density=30,
+           title="Turma",angle=c(45,135),title.font=2)
+  }
+}
+
+str(dados_graficos3)
+
+for(i in 1:ncol(dados_graficos3)){
+  t1 <- table(dados_graficos3[dados_graficos3$Turma == "A",i])
+  t2 <- table(dados_graficos3[dados_graficos3$Turma == "B",i])
+  
+  barplot-.(t1, xlab =  names(dados_graficos3)[i],
+          ylim=c(0,max(max(t1),max(t2)))*1.3,
+          xlim = c(0, max(max(t1), max(t2))),
+          beside = T,
+          ylab = "Frequencia", main = "Grafico de barras",
+          density=30, col = "red", angle=45)
+  
+  barplot(t2, add=T, col="blue", density=30, angle=135)
+  
+  legend("top", c("A", "B"), fill=c("red","blue"),density=30,
+         title="Turma", angle=c(45,135), title.font=2)
+}
+
+
+# Sabe-se que quanto maior a amostra menor serao erro de estimativa. Para
+# ilustrar este fato, gere amostras de uma distribuicao normal com media 30 e
+# desviopadrao 3 (µ=30 eσ=3 ) ,comecando com uma amostrade tamanhoum(n=1) e
+# aumentando de uma em uma unidade, iterativamente, ate que o erro de estimativa
+# seja menor que 0,001. Lembre-se que o estimador natural de µ e amedia amostral
+# (¯ x) e portanto as amostras devem aumentar a cada iteracao ate que|¯ x−30|<0,00
+# .Utilize a estrutura while no R.
+
+n <- 1
+dif <- 30
+
+?abs
+while(dif >= 0.001){
+  dif <- abs(mean(rnorm(n, 30, 3)) - 30)
+  n <- n+1
+}
+
+print(n)
+print(dif)
+
+#Questão 3 lista 1
+n <- c(10,15,20,30,40,50,70,100,200)
+
+for(i in 1:length(n)){
+  dist_gama <- rgamma(n[i], 2, 10)
+  hist(dist_gama)
+  print(mean(dist_gama))
   
 }
 
-medidas_resumo <- function(x) {
-  c(
-    media = mean(x, na.rm = TRUE),
-    mediana = median(x, na.rm = TRUE),
-    min = min(x, na.rm = TRUE),
-    max = max(x, na.rm = TRUE),
-    variancia = var(x, na.rm = TRUE),
-    desvio_padrao = sd(x, na.rm = TRUE),
-    coef_var = sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100
-  )
-}
+media_gama <- 2/10
+abs(media_gama - mean(dist_gama))
 
-resultado <- aggregate(. ~ turma, data = , FUN = function(x) {
-  medidas_resumo(x)
-})
+#Questão 4
 
+#a)
+p_nao_ven <- 1 - pbeta(0.4, 4,2)
+p_nao_ven
+p_ven <- 1 - p_nao_ven
+p_ven
 
+#b
+bp_nao_ven <- 1 - pbeta(0.4, 2,4)
+bp_nao_ven
+bp_ven <- 1 - bp_nao_ven
+bp_ven
 
-
-
-
-
-
+curve(dbeta(x, 4, 2))
+curve(dbeta(x, 2, 4), add = T)
