@@ -53,6 +53,9 @@ u <- inv_f_acum(runif(n))
 hist(u, freq = F, ylim = c(0,1))
 plot(f, add=T, xlim = c(0,2), lwd=3, col='red')
 
+integrate(f,0,2)
+mean(u)
+
 #Método da aceitação e rejeição (Gerar valores aleatorios)
 
 g <- function(x){
