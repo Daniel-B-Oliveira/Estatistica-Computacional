@@ -254,6 +254,49 @@ Zootecnia      & 110                          \\ \hline
 \end{tabular}
 \end{table}
 
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[H]
+\centering
+\caption{Exemplo de tabela de duas variáveis entrada.}
+\label{tab:duas_entrdas}
+\begin{tabular}{lc|c}
+\hline
+\multirow{2}{*}{Curso} & \multicolumn{2}{l}{Forma de entrada} \\ \cline{2-3} 
+                       & Enem             & Outra             \\ \hline
+A                      & 3                & 2                 \\
+B                      & 2                & 1                 \\
+C                      & 3                & 2                 \\ \hline            
+\end{tabular}
+\end{table}
+
 Na tabela \ref{tab:curso}   %\ref* não deixa destacado
 
+\subsection{Alguns exemplos de figuras}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figuras/normal-padrao.png}
+    \caption{Distribuição Normal Padrão}
+    \label{fig:norma_padrão}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figuras/normal-padrao.png}
+    \caption{Distribuição Normal Padrão}
+    \label{fig:norma_padrão_reduzida}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5cm, height=10cm]{figuras/normal-padrao.png}
+    \caption{Distribuição Normal Padrão}
+    \label{fig:normal-padrao-lagura-altura}
+\end{figure}
+
+Figuras \ref{fig:norma_padrão}, \ref{fig:norma_padrão_reduzida}, \ref{fig:normal-padrao-lagura-altura}
+
 \end{document}
+
+
